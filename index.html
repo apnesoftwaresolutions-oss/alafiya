@@ -73,7 +73,7 @@
             display: flex;
             align-items: center;
             gap: 10px;
-            z-index: 1001; /* Keeps logo above mobile menu */
+            z-index: 1001;
         }
 
         .logo span {
@@ -425,7 +425,20 @@
         @media (max-width: 768px) {
             /* Mobile Navigation */
             nav { padding: 15px 5%; }
-            .logo { font-size: 1.4rem; }
+            
+            /* Logo Fix for Mobile */
+            .logo { 
+                font-size: 1.2rem; 
+                flex-direction: column; /* Stacks Al Afiya and Bakery */
+                align-items: flex-start;
+                gap: 2px;
+                line-height: 1;
+                white-space: nowrap; /* Prevents AL AFIYA from breaking into two lines */
+            }
+            .logo span {
+                font-size: 0.8rem;
+                letter-spacing: 2px;
+            }
             
             .hamburger {
                 display: flex;
