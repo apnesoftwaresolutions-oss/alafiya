@@ -11,10 +11,10 @@
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
     
     <style>
-        /* --- THEME VARIABLES (Based on Al Afiya Bakery) --- */
+        /* --- THEME VARIABLES --- */
         :root {
-            --burgundy: #8B1E32; /* Exterior signage & seat cushions */
-            --gold: #C5A059;     /* Interior brass lights & logo ring */
+            --burgundy: #8B1E32; 
+            --gold: #C5A059;     
             --gold-light: #E8D3A2;
             --dark-text: #2C2C2C;
             --light-bg: #FFFFFF;
@@ -45,7 +45,7 @@
             justify-content: space-between;
             align-items: center;
             padding: 20px 5%;
-            background-color: rgba(255, 255, 255, 0.95);
+            background-color: rgba(255, 255, 255, 0.98);
             backdrop-filter: blur(10px);
             position: fixed;
             width: 100%;
@@ -73,6 +73,7 @@
             display: flex;
             align-items: center;
             gap: 10px;
+            z-index: 1001; /* Keeps logo above mobile menu */
         }
 
         .logo span {
@@ -136,12 +137,41 @@
             font-size: 0.9rem;
             letter-spacing: 1px;
             text-transform: uppercase;
+            z-index: 1001;
         }
 
         .cart-btn:hover {
             background-color: transparent;
             color: var(--burgundy);
             border-color: var(--burgundy);
+        }
+
+        /* Hamburger Menu Icon */
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            gap: 6px;
+            z-index: 1001;
+        }
+
+        .hamburger span {
+            width: 28px;
+            height: 2px;
+            background-color: var(--burgundy);
+            transition: all 0.3s ease;
+            border-radius: 2px;
+        }
+
+        /* Hamburger Animation */
+        .hamburger.active span:nth-child(1) {
+            transform: translateY(8px) rotate(45deg);
+        }
+        .hamburger.active span:nth-child(2) {
+            opacity: 0;
+        }
+        .hamburger.active span:nth-child(3) {
+            transform: translateY(-8px) rotate(-45deg);
         }
 
         /* --- SCROLL REVEAL ANIMATIONS --- */
@@ -164,7 +194,7 @@
         /* --- HERO SECTION --- */
         .hero {
             background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.6)), url('https://images.unsplash.com/photo-1509440159596-0249088772ff?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&q=80') center/cover fixed;
-            height: 85vh;
+            height: 100vh;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -174,7 +204,7 @@
         }
 
         .hero h1 {
-            font-size: 4rem;
+            font-size: clamp(3rem, 8vw, 4.5rem);
             color: var(--light-bg);
             margin-bottom: 15px;
             letter-spacing: 1px;
@@ -187,7 +217,7 @@
         }
 
         .hero p {
-            font-size: 1.2rem;
+            font-size: clamp(1rem, 3vw, 1.2rem);
             max-width: 600px;
             margin-bottom: 35px;
             font-weight: 300;
@@ -335,7 +365,7 @@
             border-color: var(--burgundy);
         }
 
-        /* --- INFO BANNER (Inspired by their storefront) --- */
+        /* --- INFO BANNER --- */
         .info-banner {
             background-color: var(--light-bg);
             padding: 70px 5%;
@@ -386,12 +416,72 @@
             font-weight: 300;
         }
 
-        /* --- RESPONSIVE --- */
+        /* --- MOBILE RESPONSIVENESS --- */
+        @media (max-width: 900px) {
+            .nav-right-group { gap: 20px; }
+            .nav-links { gap: 20px; }
+        }
+
         @media (max-width: 768px) {
-            .hero h1 { font-size: 3rem; }
-            .nav-links { display: none; }
-            .nav-right-group { gap: 15px; }
+            /* Mobile Navigation */
+            nav { padding: 15px 5%; }
             .logo { font-size: 1.4rem; }
+            
+            .hamburger {
+                display: flex;
+            }
+
+            .nav-right-group {
+                gap: 15px;
+            }
+
+            .nav-links {
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background-color: var(--light-bg);
+                flex-direction: column;
+                align-items: center;
+                padding: 0;
+                box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+                /* Slide up hide logic */
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height 0.4s ease-in-out, padding 0.4s ease-in-out;
+            }
+
+            .nav-links.active {
+                max-height: 250px;
+                padding: 20px 0;
+            }
+
+            .nav-links li {
+                width: 100%;
+                text-align: center;
+                padding: 15px 0;
+            }
+
+            .cart-btn {
+                padding: 8px 16px;
+                font-size: 0.8rem;
+            }
+
+            /* Adjust Sections for Mobile */
+            .hero { padding-top: 60px; height: 90vh; }
+            
+            .shop-section { padding: 60px 5%; }
+            .section-title { font-size: 2rem; margin-bottom: 10px; }
+            .section-subtitle { margin-bottom: 30px; font-size: 1rem; }
+            
+            /* Ensures Grid flows naturally on small screens */
+            .product-grid { grid-template-columns: 1fr; max-width: 450px; margin: 0 auto; }
+            
+            .info-banner { 
+                padding: 50px 5%; 
+                grid-template-columns: 1fr; /* Stack info sections */
+                gap: 40px; 
+            }
         }
     </style>
 </head>
@@ -400,12 +490,20 @@
     <!-- Navigation -->
     <nav id="navbar">
         <a href="#" class="logo serif">Al Afiya <span>Bakery</span></a>
+        
         <div class="nav-right-group">
-            <ul class="nav-links">
+            <ul class="nav-links" id="navLinks">
                 <li><a href="#shop">Menu</a></li>
                 <li><a href="#info">Visit Us</a></li>
             </ul>
             <button class="cart-btn" id="cartToggle">Order (<span id="cartCount">0</span>)</button>
+            
+            <!-- Mobile Hamburger Icon -->
+            <div class="hamburger" id="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
         </div>
     </nav>
 
@@ -422,7 +520,7 @@
         <p class="section-subtitle reveal">Handcrafted daily using the finest ingredients.</p>
         
         <div class="product-grid">
-            <!-- Product 1 (Updated Croissant Image) -->
+            <!-- Product 1 -->
             <div class="product-card reveal delay-1">
                 <div class="img-container">
                     <img src="https://images.unsplash.com/photo-1623334044303-241021148842?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Butter Croissant" class="product-img">
@@ -509,6 +607,23 @@
 
     <!-- Interactive Scripts -->
     <script>
+        // --- MOBILE MENU LOGIC ---
+        const hamburger = document.getElementById('hamburger');
+        const navLinks = document.getElementById('navLinks');
+
+        hamburger.addEventListener('click', () => {
+            hamburger.classList.toggle('active');
+            navLinks.classList.toggle('active');
+        });
+
+        // Close menu when a link is clicked
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                hamburger.classList.remove('active');
+                navLinks.classList.remove('active');
+            });
+        });
+
         // --- CART LOGIC ---
         let cartItems = 0;
 
@@ -527,7 +642,6 @@
         });
 
         // --- SCROLL EFFECTS ---
-        
         // 1. Dynamic Navbar Shadow
         const navbar = document.getElementById('navbar');
         window.addEventListener('scroll', () => {
