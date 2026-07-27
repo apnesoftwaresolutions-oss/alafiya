@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Al Afiya French Bakery | Abu Dhabi</title>
+    
+    <!-- Google Fonts for Typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* --- THEME VARIABLES (Based on Al Afiya Bakery) --- */
+        :root {
+            --burgundy: #8B1E32; /* Exterior signage & seat cushions */
+            --gold: #C5A059;     /* Interior brass lights & logo ring */
+            --gold-light: #E8D3A2;
+            --dark-text: #2C2C2C;
+            --light-bg: #FFFFFF;
+            --gray-bg: #F8F8F8;
+            --border-color: #EAEAEA;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--gray-bg);
+            color: var(--dark-text);
+            font-family: 'Lato', sans-serif;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4, .serif {
+            font-family: 'Playfair Display', serif;
+        }
+
+        /* --- NAVIGATION --- */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 5%;
+            background-color: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            transition: all 0.4s ease;
+            border-bottom: 1px solid transparent;
+        }
+
+        nav.scrolled {
+            padding: 15px 5%;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+            background-color: #ffffff;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            color: var(--burgundy);
+            text-decoration: none;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            transition: transform 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo span {
+            color: var(--gold);
+        }
+
+        .nav-right-group {
+            display: flex;
+            align-items: center;
+            gap: 40px;
+        }
+
+        .nav-links {
+            list-style: none;
+            display: flex;
+            gap: 30px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--dark-text);
+            font-weight: 600;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            position: relative;
+            padding-bottom: 5px;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--burgundy);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 0;
+            background-color: var(--gold);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .cart-btn {
+            background-color: var(--burgundy);
+            color: white;
+            padding: 10px 24px;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: 600;
+            font-family: 'Lato', sans-serif;
+            transition: all 0.3s;
+            cursor: pointer;
+            border: 1px solid var(--burgundy);
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .cart-btn:hover {
+            background-color: transparent;
+            color: var(--burgundy);
+            border-color: var(--burgundy);
+        }
+
+        /* --- SCROLL REVEAL ANIMATIONS --- */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.8s cubic-bezier(0.2, 0.8, 0.2, 1), transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .delay-1 { transition-delay: 0.1s; }
+        .delay-2 { transition-delay: 0.2s; }
+        .delay-3 { transition-delay: 0.3s; }
+        .delay-4 { transition-delay: 0.4s; }
+
+        /* --- HERO SECTION --- */
+        .hero {
+            background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.6)), url('https://images.unsplash.com/photo-1509440159596-0249088772ff?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&q=80') center/cover fixed;
+            height: 85vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 0 20px;
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+            color: var(--light-bg);
+            margin-bottom: 15px;
+            letter-spacing: 1px;
+            animation: fadeInDown 1s ease forwards;
+        }
+
+        .hero h1 span {
+            color: var(--gold);
+            font-style: italic;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 600px;
+            margin-bottom: 35px;
+            font-weight: 300;
+            color: var(--light-bg);
+            opacity: 0;
+            animation: fadeInUp 1s 0.3s ease forwards;
+        }
+
+        .hero-btn {
+            background-color: var(--gold);
+            color: var(--dark-text);
+            padding: 14px 36px;
+            border-radius: 4px;
+            font-size: 1rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            border: none;
+            cursor: pointer;
+            opacity: 0;
+            animation: fadeInUp 1s 0.6s ease forwards;
+            transition: all 0.3s ease;
+        }
+
+        .hero-btn:hover {
+            background-color: var(--light-bg);
+            color: var(--burgundy);
+            transform: translateY(-3px);
+        }
+
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* --- SHOP SECTION --- */
+        .shop-section {
+            padding: 90px 5%;
+            background-color: var(--gray-bg);
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            color: var(--dark-text);
+            margin-bottom: 15px;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            color: var(--gray-text);
+            font-size: 1.1rem;
+            margin-bottom: 50px;
+            font-weight: 300;
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+        }
+
+        .product-card {
+            background: var(--light-bg);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.04);
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+            border: 1px solid var(--border-color);
+        }
+
+        .product-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 35px rgba(139, 30, 50, 0.1);
+            border-color: var(--gold-light);
+        }
+
+        .product-img {
+            width: 100%;
+            height: 280px;
+            object-fit: cover;
+            transition: transform 0.6s ease;
+        }
+
+        .product-card:hover .product-img {
+            transform: scale(1.08);
+        }
+
+        .img-container {
+            overflow: hidden;
+        }
+
+        .product-info {
+            padding: 25px 20px;
+            text-align: center;
+            background: var(--light-bg);
+            position: relative;
+        }
+
+        .product-category {
+            font-size: 0.75rem;
+            color: var(--gold);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 8px;
+            font-weight: 700;
+        }
+
+        .product-title {
+            font-size: 1.4rem;
+            margin-bottom: 10px;
+            color: var(--dark-text);
+        }
+
+        .product-price {
+            color: var(--burgundy);
+            font-weight: 700;
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            font-family: 'Lato', sans-serif;
+        }
+
+        .buy-btn {
+            width: 100%;
+            padding: 12px;
+            background-color: transparent;
+            color: var(--dark-text);
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .buy-btn:hover {
+            background-color: var(--burgundy);
+            color: var(--light-bg);
+            border-color: var(--burgundy);
+        }
+
+        /* --- INFO BANNER (Inspired by their storefront) --- */
+        .info-banner {
+            background-color: var(--light-bg);
+            padding: 70px 5%;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            text-align: center;
+            gap: 40px;
+            border-top: 1px solid var(--border-color);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .info-item h3 {
+            color: var(--burgundy);
+            margin-bottom: 12px;
+            font-size: 1.4rem;
+        }
+        
+        .info-item p {
+            color: var(--gray-text);
+            line-height: 1.6;
+            font-weight: 300;
+        }
+
+        .info-icon {
+            font-size: 2rem;
+            color: var(--gold);
+            margin-bottom: 15px;
+        }
+
+        /* --- FOOTER --- */
+        footer {
+            background-color: var(--dark-text);
+            color: var(--light-bg);
+            text-align: center;
+            padding: 50px 20px;
+        }
+
+        .footer-logo {
+            font-size: 1.8rem;
+            color: var(--gold);
+            margin-bottom: 15px;
+        }
+
+        footer p {
+            margin: 5px 0;
+            font-size: 0.9rem;
+            color: #A0A0A0;
+            font-weight: 300;
+        }
+
+        /* --- RESPONSIVE --- */
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 3rem; }
+            .nav-links { display: none; }
+            .nav-right-group { gap: 15px; }
+            .logo { font-size: 1.4rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation -->
+    <nav id="navbar">
+        <a href="#" class="logo serif">Al Afiya <span>Bakery</span></a>
+        <div class="nav-right-group">
+            <ul class="nav-links">
+                <li><a href="#shop">Menu</a></li>
+                <li><a href="#info">Visit Us</a></li>
+            </ul>
+            <button class="cart-btn" id="cartToggle">Order (<span id="cartCount">0</span>)</button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <h1 class="serif">Taste the Elegance <br>of <span>France</span></h1>
+        <p>Freshly baked artisan pastries, our signature V60 coffee, and a beautiful outdoor patio waiting for you.</p>
+        <button class="hero-btn" onclick="document.getElementById('shop').scrollIntoView({behavior: 'smooth'})">View Our Menu</button>
+    </section>
+
+    <!-- Shop / Menu Section -->
+    <section id="shop" class="shop-section">
+        <h2 class="section-title serif reveal">Our Signatures</h2>
+        <p class="section-subtitle reveal">Handcrafted daily using the finest ingredients.</p>
+        
+        <div class="product-grid">
+            <!-- Product 1 -->
+            <div class="product-card reveal delay-1">
+                <div class="img-container">
+                    <img src="https://images.unsplash.com/photo-1555507036-ab1f40ce88cb?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Butter Croissant" class="product-img">
+                </div>
+                <div class="product-info">
+                    <div class="product-category">Fresh Pastry</div>
+                    <h3 class="product-title serif">Classic Butter Croissant</h3>
+                    <p class="product-price">AED 18.00</p>
+                    <button class="buy-btn" onclick="addToCart('Classic Butter Croissant')">Add to Order</button>
+                </div>
+            </div>
+
+            <!-- Product 2 -->
+            <div class="product-card reveal delay-2">
+                <div class="img-container">
+                    <img src="https://images.unsplash.com/photo-1572442388796-11668a67e53d?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Spanish Latte" class="product-img">
+                </div>
+                <div class="product-info">
+                    <div class="product-category">Cold Coffee</div>
+                    <h3 class="product-title serif">Iced Spanish Latte</h3>
+                    <p class="product-price">AED 24.00</p>
+                    <button class="buy-btn" onclick="addToCart('Iced Spanish Latte')">Add to Order</button>
+                </div>
+            </div>
+
+            <!-- Product 3 -->
+            <div class="product-card reveal delay-3">
+                <div class="img-container">
+                    <img src="https://images.unsplash.com/photo-1497935586351-b67a49e012bf?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="V60 Coffee" class="product-img">
+                </div>
+                <div class="product-info">
+                    <div class="product-category">Hot Coffee</div>
+                    <h3 class="product-title serif">Premium Hot V60</h3>
+                    <p class="product-price">AED 22.00</p>
+                    <button class="buy-btn" onclick="addToCart('Premium Hot V60')">Add to Order</button>
+                </div>
+            </div>
+
+            <!-- Product 4 -->
+            <div class="product-card reveal delay-4">
+                <div class="img-container">
+                    <img src="https://images.unsplash.com/photo-1569864358642-9d1684040f43?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="French Macarons" class="product-img">
+                </div>
+                <div class="product-info">
+                    <div class="product-category">Dessert</div>
+                    <h3 class="product-title serif">Al Afiya Macaron Set</h3>
+                    <p class="product-price">AED 45.00</p>
+                    <button class="buy-btn" onclick="addToCart('Al Afiya Macaron Set')">Add to Order</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Store Info Banner -->
+    <section id="info" class="info-banner">
+        <div class="info-item reveal delay-1">
+            <div class="info-icon">✦</div>
+            <h3 class="serif">Location</h3>
+            <p>Al Afiya French Bakery<br>Abu Dhabi, UAE</p>
+        </div>
+        <div class="info-item reveal delay-2">
+            <div class="info-icon">✦</div>
+            <h3 class="serif">Ambiance</h3>
+            <p>Elegant Indoor Dining<br>& Beautiful Outdoor Patio</p>
+        </div>
+        <div class="info-item reveal delay-3">
+            <div class="info-icon">✦</div>
+            <h3 class="serif">Menu Highlights</h3>
+            <p>Signature Roasts, Iced Mochas,<br>Chamomile Tea & Fresh Breads</p>
+        </div>
+        <div class="info-item reveal delay-4">
+            <div class="info-icon">✦</div>
+            <h3 class="serif">Contact Us</h3>
+            <p>Call us for orders & inquiries:<br><strong>02 665 6652</strong></p>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <h2 class="footer-logo serif">Al Afiya <span>French Bakery</span></h2>
+        <p>Makers of Fine French Pastries & Specialty Coffee.</p>
+        <p style="margin-top: 20px;">© 2026 Al Afiya French Bakery. All rights reserved.</p>
+    </footer>
+
+    <!-- Interactive Scripts -->
+    <script>
+        // --- CART LOGIC ---
+        let cartItems = 0;
+
+        function addToCart(itemName) {
+            cartItems++;
+            document.getElementById('cartCount').innerText = cartItems;
+            alert(`Magnifique! "${itemName}" has been added to your order.\n\nTotal items: ${cartItems}`);
+        }
+
+        document.getElementById('cartToggle').addEventListener('click', function() {
+            if(cartItems === 0) {
+                alert("Your order is empty. Please select from our menu first.");
+            } else {
+                alert(`Proceeding to checkout with ${cartItems} items... \n(This is a demo environment)`);
+            }
+        });
+
+        // --- SCROLL EFFECTS ---
+        
+        // 1. Dynamic Navbar Shadow
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // 2. Intersection Observer for Reveal Animations
+        const revealElements = document.querySelectorAll('.reveal');
+        
+        const revealObserver = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                    observer.unobserve(entry.target); // Stops observing once revealed
+                }
+            });
+        }, {
+            root: null,
+            threshold: 0.15, // Trigger when 15% visible
+            rootMargin: "0px 0px -50px 0px"
+        });
+
+        revealElements.forEach(el => revealObserver.observe(el));
+    </script>
+</body>
+</html>
